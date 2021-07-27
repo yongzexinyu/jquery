@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="jquery-3.2.1.min.js"></script>
+    <style>
+        table{  
+             width: 800px;
+             border-collapse: collapse; 
+        }
+    </style>
+</head>
+<body>
+    <script>
+        //添加
+        function add(){
+          var realName = $("#realName").val();
+          var age=$("#age").val();
+          var address=$("#address").val();
+          var str=$('<tr>'+'<td>'+'<input type="checkbox">'+'</td>'+'<td>'+realName+'</td>'+'<td>'+age+'</td>'+'<td>'+address+'</td>'+'<td>'+'<input type="button" value="删除" onclick="delBtn(this)">'+'</td>'+'</tr>');
+          $("table:eq(1)").append(str)
+        }
+        //全选
+      function panduan(){
+            var a=$("table:eq(1) tr:eq(0) td:eq(0)>input").prop("checked");
+            if(a){
+                $.each($(":checkbox"), function(index, value) {
+                    $(this).prop("checked",true)
+                })
+            }
+        } 
+        //批量删除
+        function delBatch(){
+     var a= $("table:eq(1) tr:gt(0) :checkbox:checked")
+            a.each(function(index, value) {
+                $(this).parent().parent().remove()
+            })
+        }
+        //删除一行
+      function delBtn(btn){
+        $(btn).parent().parent().remove()
+      }
+    </script>
+    <table>
+        <tr>
+            <td>姓名：<input id="realName" name="realName" type="text"></td>
+            <td>年龄：<input id="age" name="age" type="text"></td>
+            <td>地址：<input  id="address" name="address" type="text"></td>
+            <td><input value="添加" type="button" onclick="add()">
+                <input value="批量删除" type="button" onclick="delBatch()">
+              
+            </td>
+        </tr>
+    </table>
+    <table border="1">
+        <tr>
+            <td><input type="checkbox" id="selectAll" onchange="panduan()"></td>
+            <td>姓名</td>
+            <td>年龄</td>
+            <td>地址</td>
+            <td>操作</td>
+        </tr>
+    </table>
+</body>
+</html>
