@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
+<mapper  namespace="com.hp.dao.BankDao">
+  
+  <resultMap type="Business" id="busmap">
+  	<id column="tbid" property="bid"></id>
+  	<result column="bpid" property="pid"/>
+  	<result column="tbtype" property="btype"/>
+  	<result column="binfo" property="info"/>
+  	<association property="detail" javaType="Detail">
+  	<id column="dxid" property="xid"></id>
+  	<result column="d.bid" property="bid"></result>
+  	<result column="dname" property="name"/>
+  	<result column="dhandler" property="handler"/>
+  	</association>
+  </resultMap>
+  <insert id="addBus">
+  	insert into business (btype,pid,info) values(#{btype},#{pid},#{info})
+  </insert>
+  <select id="selectAll" resultMap="busmap">
+  select b.bid as tbid,b.pid as bpid,b.btype as tbtype,b.info as binfo,
+   d.xid as dxid ,d.name as dname,d.handler as dhandler  from business b left join detail d on b.bid=d.bid
+  </select>
+  <select id="selectById" resultType="Business">
+  	select b.bid as tbid,b.pid as bpid,b.btype as tbtype,b.info as binfo,
+   d.xid as dxid ,d.name as dname,d.handler as dhandler  from business b left join detail d on b.bid=d.bid where bid=${b.bid} 
+  </select>
+</mapper>
